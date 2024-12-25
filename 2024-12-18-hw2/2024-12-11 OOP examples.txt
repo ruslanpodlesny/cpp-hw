@@ -1,0 +1,216 @@
+
+// ConsoleApplication2.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#include <iostream>
+#include <string>
+#include <thread>
+
+using namespace std;
+
+class A 
+{
+    static int counter;
+    int my_number;
+public:
+    A()
+    {
+        my_number = counter;
+        counter++;
+    }
+    int get_number() const
+    {
+        return my_number;
+    }
+};
+int A::counter = 0;
+
+int static_counter_of_instances()
+{
+    A a, b, c, d, e;
+    A x[10];
+    cout << "a number " << a.get_number() << endl;
+    cout << "b number " << b.get_number() << endl;
+    cout << "c number " << c.get_number() << endl;
+    cout << "d number " << d.get_number() << endl;
+    cout << "e number " << e.get_number() << endl;
+    for (int i = 0; i < 10; i++)
+        cout << "x[" << i << "] number " << x[i].get_number() << endl;
+    return 0;
+}
+
+int main(int a)
+{
+    setlocale(LC_ALL, "RU");
+    static_counter_of_instances();
+    std::cout << "print \n" << "popal";
+
+    return 0;
+}
+
+инкапсуляция
+
+#include <iostream>
+#include <string>
+
+class Men
+{
+private:
+    short age;
+    std::string name;
+public:
+        
+        void print()
+        {
+            std::cout << name << std::endl;
+        }
+        Men(std::string name, short age)
+        {
+            this->name = name;
+            this->age = age;
+        }
+        void vzoslenie()
+        {
+            age = 99;
+            name = "old";
+        }
+        std::string GetName()
+        {
+            return name;
+        } 
+        int GetAge()
+        {
+            return age;
+        }
+        void setAge(int age)
+        {
+            this->age = age;
+        }
+        void setName(std::string)
+        {
+            this->name = name;
+        }
+        
+};
+
+int main()
+{
+    Men human1{ "Nikita", 23 };
+
+    //human1.age = -5;
+    //human1.name = "Pol";
+    human1.setAge(33);
+    std::cout << human1.GetAge();
+}
+
+
+-----
+
+class Person
+{
+public:
+    Person(std::string name, int age)
+    {
+        this->age = age;
+        this->name = name;
+    }
+    Person(const Person& pers)
+    {
+        this->age = pers.age;
+        this->name = pers.name;
+    }
+    void print() const
+    {
+        std::cout << "Name: " << name << "\tAge: " << age << std::endl;
+    }
+
+    std::string name;      
+    int age;           
+};
+
+class Employee : public Person
+{
+public:
+    Employee(std::string name, int age, std::string company) :Person(name, age)
+    {
+        name = "Nikolay";
+    }
+    Employee(const Employee& emp) :Person(emp) 
+    {
+        this->company = emp.company;
+        name = "Nikolay";
+    }
+    std::string company;
+    int pol;
+private:
+      
+};
+
+int main()
+{
+    Person pers{ "Nick", 22 };
+    pers.print();
+    Employee man1{ "nick",22,"ibm"};
+    Employee man2{ man1 };
+    man2.print();
+
+    
+}
+
+---------------
+reinterpret_cast
+
+#include <iostream>
+#include <string>
+
+namespace Integr
+{
+
+    class Person
+    {
+    public:
+        Person(std::string name, int age)
+        {
+            this->age = age;
+            this->name = name;
+        }
+        void print() const
+        {
+            std::cout << "Name: " << name << "\tAge: " << age << std::endl;
+        }
+
+        std::string name;
+        int age;
+    };
+}
+class Employee : public Integr::Person
+{
+public:
+    Employee(std::string name, int age, std::string company) :Person(name, age)
+    {
+        name = "Nikolay";
+    }
+    void print()
+    {
+        std::cout << company << std::endl;
+        std::cout << name << std::endl;
+        std::cout << age << std::endl;
+
+    }
+
+private:
+    std::string company;
+};
+
+int main()
+{
+    Employee emp{ "Nick", 22, "IBM" };
+
+    Integr::Person pers1{ static_cast<Integr::Person>(emp)};
+    pers1.print();
+
+    Integr::Person pers2{ "Tom", 33 };
+    pers2 = emp;
+    pers2.print();
+    
+}

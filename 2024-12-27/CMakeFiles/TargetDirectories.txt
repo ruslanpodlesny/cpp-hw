@@ -1,0 +1,3 @@
+/home/programmer/Dev/cpp-hw/2024-12-27/CMakeFiles/HelloCMake.dir
+/home/programmer/Dev/cpp-hw/2024-12-27/CMakeFiles/edit_cache.dir
+/home/programmer/Dev/cpp-hw/2024-12-27/CMakeFiles/rebuild_cache.dir
